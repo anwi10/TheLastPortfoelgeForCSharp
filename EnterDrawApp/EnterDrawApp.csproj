@@ -131,6 +131,12 @@
       <Version>5.4.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\ClassLibraryDrawApp.csproj">
+      <Project>{8e6890ce-1af5-48e2-b781-783d1e201205}</Project>
+      <Name>ClassLibraryDrawApp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
