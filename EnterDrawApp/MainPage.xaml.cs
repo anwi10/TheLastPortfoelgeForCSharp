@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using ClassLibraryDrawApp;
+using FilePersistence;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -41,7 +41,7 @@ namespace EnterDrawApp
 
             DataPersistence datePer = new  DataPersistence(fN,sN,eM,pN,dB,serialN);
 
-            await Task.Run(() => datePer.SaveInformation());
+            await Task.Run(() => datePer.SaveUserInformation());
         }
     }
 }

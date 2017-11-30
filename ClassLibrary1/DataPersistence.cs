@@ -4,8 +4,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
+using Windows.UI.ViewManagement;
+using Microsoft.Win32.SafeHandles;
 
-namespace ClassLibraryDrawApp
+
+namespace FilePersistence
 {
     public class DataPersistence
     {
@@ -32,21 +36,19 @@ namespace ClassLibraryDrawApp
 
         }
 
-        public async void SaveInformation()
+        public async void SaveUserInformation()
         {
             //Using a filestream
             FileStream fs = null;
-            FileInfo fi = null;
             //Try/finally to close the stream
             try
             {
-                // Create a reference to a file.
-
-                //fi = new FileInfo(@"c:\tmp\MyTest.txt");
-                // Actually create the file.
+                // Create file; replace if exists.
+                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                StorageFile UserPersistenceFile = await storageFolder.CreateFileAsync("UserPersistence.txt",Windows.Storage.CreationCollisionOption.OpenIfExists);
+                fs = new FileStream(UserPersistenceFile.Path,FileMode.Open);
+                await FileIO.WriteTextAsync(UserPersistenceFile,"Hellow");
                 
-
-               await Task.Run(() => fs = new FileStream(storageName,FileMode.OpenOrCreate,FileAccess.ReadWrite));
                 using (StreamWriter dataWriter = new StreamWriter(fs, Encoding.UTF8))
                 {
                     dataWriter.Write(firstName);
@@ -62,9 +64,11 @@ namespace ClassLibraryDrawApp
                 if (fs != null)
                 {
                     fs.Dispose();
-                    fi.Delete();
                 }
             }
         }
     }
+
+    //Make a Unit Test here
+
 }
