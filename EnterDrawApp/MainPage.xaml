@@ -19,6 +19,7 @@
         <TextBox Name="serialNrTextBox" Text="Serial number" Margin="110,172,148,430" Grid.Row="1"/>
         <DatePicker Name="dateOfBirthDatePicker" HorizontalAlignment="Left" Margin="113,212,0,0" Grid.Row="1" VerticalAlignment="Top" Header="Date of birth"/>
         <Button Content="Done" HorizontalAlignment="Left" Margin="113,302,0,0" Grid.Row="1" VerticalAlignment="Top" Click="DoneButton_OnClick"/>
+        <TextBox Name="DisplayBox" Margin="110,403.5,148,198" Grid.Row="1"/>
         
     </Grid>
 </Page>

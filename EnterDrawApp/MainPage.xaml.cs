@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using FilePersistence;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -39,9 +40,23 @@ namespace EnterDrawApp
             DateTime dB = dateOfBirthDatePicker.Date.DateTime;
             string serialN = serialNrTextBox.Text;
 
-            DataPersistence datePer = new  DataPersistence(fN,sN,eM,pN,dB,serialN);
+            DataPersistence datePer = new DataPersistence(fN, sN, eM, pN, dB, serialN);
 
-            await Task.Run(() => datePer.SaveUserInformation());
+            await datePer.SaveUserInformation();
+            await datePer.SaveUserInformation();
+            await datePer.GetUserInformation();
+
+            foreach (var str in datePer.ListstoringReadPersonalData)
+            {
+                DisplayBox.Text += str;
+            }
+            
+            
+            
+
+
+            //await Task.Run(() => DisplayBox.Text = datePer.TestData);
+
         }
     }
 }

@@ -1,36 +1,42 @@
-﻿
-using System;
-using NUnit.Framework;
+﻿using System;
+using FilePersistence;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+
 namespace EnterDrawApp.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class LibraryTests
     {
-        [SetUp]
-        public void SetUp()
-        {
-            //Setup a test
-        } 
+        private DataPersistence testData;
+       
+           
+        
 
-        [Test]
+        [TestMethod]
         public void LibraryTest1()
         {
+            DateTime testDate = new DateTime(2017, 11, 30);
+            string testName = "Anders";
+            String testSurName = "Winter";
+            string testEMail = "awint15@studnet.sdu.dk";
+            string testPhoneNR = "51297085";
+            string inValidSerialNumber = "InValid";
+            string valiedSerialNumber = "Valid";
+            testData = new DataPersistence(testName, testSurName, testEMail, testPhoneNR, testDate, valiedSerialNumber);
+            testData.SaveUserInformation();
+
+            Assert.AreEqual(testName, testData.GetUserInformation().Result.firstName);
         }
     }
 
-    [TestFixture]
+    [TestClass]
     public class AppTests
     {
-        [SetUp]
-        public void SetUp()
-        {
-            
-        }
-
-        [Test]
+        [TestMethod]
         public void AppTest1()
         {
-            
+            Assert.IsFalse(true);
         }
 
 
