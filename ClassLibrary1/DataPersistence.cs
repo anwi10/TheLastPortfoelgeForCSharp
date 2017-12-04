@@ -12,167 +12,104 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.Win32.SafeHandles;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization;
 
 namespace FilePersistence
 {
     public class DataPersistence
     {
         //Constant storage name
-        private const string FileLocationForPersonalEntryData = "PersonalData.txt";
-
-        private const string FileLocationForUsedSerialNumbers = "UsedSerialNumbers.txt";
-
-        private const string FileLocationForValidSerialNumbers = "ValiedSerialNumbers.txt";
-
-        //Initialization of a struct that holds all the information from the current entry
-        private EntryData structToHoldAllTheEntryData;
-
-        public List<string> ListstoringReadPersonalData;
-
-        private uint SizeOFLastWriteStream;
-        //Struct to hold the data of an entry in the app
-        public struct EntryData
+        public struct FileLokationMode
         {
-            public string firstName;
-            public string surName;
-            public string eMail;
-            public string phoneNr;
-            public DateTime date;
-            public string serialNumber;
+            public const string FileLocationForPersonalEntryData = "PersonalData.txt";
 
-            public EntryData(string fN, string sN, string eM, string pNr, DateTime dT, string sNr)
-            {
-                firstName = fN;
-                surName = sN;
-                eMail = eM;
-                phoneNr = pNr;
-                date = dT;
-                serialNumber = sNr;
-            }
-            public EntryData(string fN)
-            {
-                firstName = fN;
-                surName = "0";
-                eMail = "0";
-                phoneNr = "0";
-                date = DateTime.MaxValue;
-                serialNumber = "0";
-            }
+            public const string FileLocationForUsedSerialNumbers = "UsedSerialNumbers.txt";
 
-        }
-       
-
-        public DataPersistence(string firstName, string surName, string eMail,string phoneNr, DateTime date, string serialNumber)
-        {
-            structToHoldAllTheEntryData = new EntryData(firstName, surName, eMail, phoneNr, date, serialNumber);
-            SizeOFLastWriteStream = 0;
+            public const string FileLocationForValidSerialNumbers = "ValiedSerialNumbers.txt";
         }
 
-        public async Task SaveUserInformation()
+        //Stream set-up
+        private Stream stream = null;
+
+        //Serialize set-up
+        private DataContractSerializer dcSerializer = null;
+
+        //Directory set-up
+        private StorageFolder storageFolder = null;
+
+
+        //Methods
+        public DataPersistence()
         {
-            FileStream fs = null;
-            string testdata = "";
-            try
-            {
-
-                // Create file; replace if exists.
-                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-
-                StorageFile FileForPersonalEntryData =
-                    await storageFolder.CreateFileAsync(FileLocationForPersonalEntryData,
-                        CreationCollisionOption.OpenIfExists);
-//                var stream = await FileForPersonalEntryData.OpenAsync(FileAccessMode.ReadWrite);
-//                ulong size = stream.Size;
-                fs = new FileStream(FileForPersonalEntryData.Path,FileMode.OpenOrCreate);
-                //SizeOFLastWriteStream = (uint)size;
-                /* using (var outputStream = stream.GetOutputStreamAt((uint)size))
-                 {*/
-                using (var streamwriter = new StreamWriter(fs,Encoding.UTF8))
-                {
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.firstName);
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.firstName);
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.surName);
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.eMail);
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.phoneNr);
-                    await streamwriter.WriteLineAsync(structToHoldAllTheEntryData.date.ToString());
-                    await streamwriter.WriteLineAsync("|");
-
-                }
-                //}
-                if (fs != null)
-                    fs.Dispose();
-            }
-            finally
-            {
-
-            }
-            /*
-            //Try/finally to close the stream
-            try
-            {
-                // Create file; replace if exists.
-                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-                StorageFile FileForPersonalEntryData =
-                    await storageFolder.CreateFileAsync(FileLocationForPersonalEntryData,CreationCollisionOption.OpenIfExists);
-                    //FileLocationForPersonalEntryData, CreationCollisionOption.OpenIfExists
-                fs = new FileStream(FileForPersonalEntryData.Path,FileMode.Open);
-
-                using (StreamWriter dataWriter = new StreamWriter(fs, Encoding.UTF8))
-                {
-                    dataWriter.Write(structToHoldAllTheEntryData.firstName);
-                    dataWriter.Write(structToHoldAllTheEntryData.surName);
-                    dataWriter.Write(structToHoldAllTheEntryData.eMail);
-                    dataWriter.Write(structToHoldAllTheEntryData.phoneNr);
-                    dataWriter.Write(structToHoldAllTheEntryData.date.ToString());
-                }
-                
-            }
-            finally
-            {
-                if(fs != null)
-                fs.Dispose();
-            }*/
+            // Find app local folder
+            storageFolder = ApplicationData.Current.LocalFolder;
         }
         
-        public void simplefunction()
-        {
-            
-        }
 
-        public async Task GetUserInformation()
+        public void SerializeObject(object objectToSerialize, string fileLocationMode)
         {
-            ListstoringReadPersonalData = new List<string>();
-            FileStream fs = null;
-            string testdata = "";
+
+            //Use the app local folder + filename to point at file
+            stream = File.Open(storageFolder.Path + "\\" + fileLocationMode, FileMode.OpenOrCreate);
+
+            //Define the type of object to serialize / initialize the serializer
+            dcSerializer = new DataContractSerializer(objectToSerialize.GetType());
+
             try
             {
-                
-                // Create file; replace if exists.
-                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-               
-                StorageFile FileForPersonalEntryData =
-                    await storageFolder.CreateFileAsync(FileLocationForPersonalEntryData,
-                        CreationCollisionOption.OpenIfExists);
-                fs = new FileStream(FileForPersonalEntryData.Path,FileMode.OpenOrCreate);
-                    using (var streamreader = new StreamReader(fs))
-                    {
-                        while (testdata != "|")
-                        {
-                            ListstoringReadPersonalData.Add(testdata);
-                            testdata = streamreader.ReadLine();
-                    }
-                    }
- 
-
-                if (fs != null)
-                    fs.Dispose();
-                
+                //Serialize the object
+                dcSerializer.WriteObject(stream, objectToSerialize);
             }
             finally
             {
-                
+                //Close the stream, if open
+                if (stream != null)
+                {
+                    stream.Dispose();
+                }
             }
+        }
+        
+        //takes an object as parameter to know the type of object to deserialize
+        public object DeserializeObject(object objectType, string fileLocationMode)
+        {
+            //Use the app local folder + filename to point at file
+            stream = File.Open(storageFolder.Path + "\\" + fileLocationMode, FileMode.OpenOrCreate);
 
+            //Define the type of object to serialize / initialize the serializer
+            dcSerializer = new DataContractSerializer(objectType.GetType());
+
+            //Object to hold return information
+            object objectToDeserialize = null;
+
+            try
+            {
+                //Untill the stream ends
+                while (stream.CanRead)
+                {
+                    //Read in the object
+                    objectToDeserialize = dcSerializer.ReadObject(stream);
+                }
+            } //in chase, for some reason the function tryes to read after the end of the stream 
+            catch (System.Xml.XmlException)
+            {
+                return objectToDeserialize;
+            }
+            finally
+            { 
+                //Close the stream, if open
+                if (stream != null)
+                {
+                    stream.Dispose();
+                }   
+            }
+            return objectToDeserialize;
+        }
+
+        public string GetPath(string fileLocationMode)
+        {
+            return storageFolder.Path + "\\" + fileLocationMode;
         }
     }
 }

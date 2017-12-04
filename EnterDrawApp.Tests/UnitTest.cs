@@ -8,25 +8,30 @@ namespace EnterDrawApp.Tests
     [TestClass]
     public class LibraryTests
     {
-        private DataPersistence testData;
-       
-           
-        
-
         [TestMethod]
-        public void LibraryTest1()
-        {
+        public void SerializationTest()
+        { 
+            //Set-up
             DateTime testDate = new DateTime(2017, 11, 30);
             string testName = "Anders";
             String testSurName = "Winter";
             string testEMail = "awint15@studnet.sdu.dk";
             string testPhoneNR = "51297085";
-            string inValidSerialNumber = "InValid";
             string valiedSerialNumber = "Valid";
-            testData = new DataPersistence(testName, testSurName, testEMail, testPhoneNR, testDate, valiedSerialNumber);
-            testData.SaveUserInformation();
+            EntryData deserializeData = new EntryData();
+            EntryData eD = new EntryData();
+            eD.SaveEntryToList(testName, testSurName, testEMail, testPhoneNR, testDate, valiedSerialNumber);
+            DataPersistence dP = new DataPersistence();
 
-            Assert.AreEqual(testName, testData.GetUserInformation().Result.firstName);
+            //Serialize
+            dP.SerializeObject(eD,DataPersistence.FileLokationMode.FileLocationForPersonalEntryData);
+
+            //Deserialize
+            deserializeData = (EntryData) dP.DeserializeObject(deserializeData,
+                DataPersistence.FileLokationMode.FileLocationForPersonalEntryData);
+
+            //Test if equal
+            Assert.AreEqual(eD, deserializeData);
         }
     }
 

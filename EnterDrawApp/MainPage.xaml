@@ -12,14 +12,13 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="637*"/>
         </Grid.RowDefinitions>
-        <TextBox Name="firstNameTextBox"  Text="First name" Margin="110,10,148,592" Grid.Row="1"/>
-        <TextBox Name="surNameTextBox" Text="Sur name" Margin="110,50,148,550" Grid.Row="1"/>
-        <TextBox Name="eMailTextBox" Text="E-Mail" Margin="110,92,148,510" Grid.Row="1"/>
-        <TextBox Name="phoneNrTextBox" Text="Phone number" Margin="110,132,148,470" Grid.Row="1"/>
-        <TextBox Name="serialNrTextBox" Text="Serial number" Margin="110,172,148,430" Grid.Row="1"/>
-        <DatePicker Name="dateOfBirthDatePicker" HorizontalAlignment="Left" Margin="113,212,0,0" Grid.Row="1" VerticalAlignment="Top" Header="Date of birth"/>
-        <Button Content="Done" HorizontalAlignment="Left" Margin="113,302,0,0" Grid.Row="1" VerticalAlignment="Top" Click="DoneButton_OnClick"/>
-        <TextBox Name="DisplayBox" Margin="110,403.5,148,198" Grid.Row="1"/>
-        
+        <TextBox Name="firstNameTextBox"  GotFocus="TextBox_GotFocus" Text="First name" Margin="110,10.5,779,549" Grid.Row="1"/>
+        <TextBox Name="surNameTextBox" GotFocus="TextBox_GotFocus" Text="Sur name" Margin="110,85.5,779,476" Grid.Row="1"/>
+        <TextBox Name="eMailTextBox" GotFocus="TextBox_GotFocus" Text="E-Mail" Margin="113,172.5,776,396" Grid.Row="1"/>
+        <TextBox Name="phoneNrTextBox" GotFocus="TextBox_GotFocus" Text="Phone number" Margin="110,244.5,779,325" Grid.Row="1"/>
+        <TextBox Name="serialNrTextBox" GotFocus="TextBox_GotFocus" Text="Serial number" Margin="110,319.5,779,243" Grid.Row="1"/>
+        <DatePicker Name="dateOfBirthDatePicker" HorizontalAlignment="Left" Margin="110,446.5,0,0" Grid.Row="1" VerticalAlignment="Top" Header="Date of birth"/>
+        <Button Content="Done" HorizontalAlignment="Left" Margin="113,511.5,0,0" Grid.Row="1" VerticalAlignment="Top" Click="DoneButton_OnClick"/>
+        <TextBox Name="DisplayBox" GotFocus="TextBox_GotFocus" Margin="110,604.5,779,124" Grid.Row="1"/>
     </Grid>
 </Page>
