@@ -17,6 +17,7 @@ namespace ClassLibraryDrawApp
         private string surName;
         private string eMail;
         private string phoneNr;
+        asda
         private DateTime date;
         private string serialNumber;
 
