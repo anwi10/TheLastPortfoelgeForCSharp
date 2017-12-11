@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization;
 
-namespace FilePersistence
+namespace EnterDrawAppLib
 {
     public class DataPersistence
     {

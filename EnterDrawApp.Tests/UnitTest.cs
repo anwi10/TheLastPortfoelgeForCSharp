@@ -1,8 +1,10 @@
 ﻿using System;
-using FilePersistence;
+using EnterDrawAppLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+using EnterDrawApp;
 
 namespace EnterDrawApp.Tests
 {
@@ -57,11 +59,11 @@ namespace EnterDrawApp.Tests
         [TestMethod]
         public void DataStructureTest()
         {
-
             MainPage main = new MainPage();
 
+            int hello = 2;
 
-            Assert.IsNotNull(firstname);
+            Assert.IsNotNull(hello);
         }
 
         [TestMethod]

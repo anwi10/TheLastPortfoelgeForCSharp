@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "filePersistence", "ClassLibrary1\filePersistence.csproj", "{8E6890CE-1AF5-48E2-B781-783D1E201205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterDrawAppLib", "ClassLibrary1\EnterDrawAppLib.csproj", "{8E6890CE-1AF5-48E2-B781-783D1E201205}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterDrawApp", "EnterDrawApp\EnterDrawApp.csproj", "{793AA6E3-EFC4-40AB-8E59-0D52A690E3EA}"
 EndProject
