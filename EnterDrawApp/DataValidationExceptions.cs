@@ -74,4 +74,21 @@ namespace EnterDrawApp
         }
     }
 
+    public class LoginErrorEception : Exception
+    {
+        public LoginErrorEception() : base()
+        {
+
+        }
+
+        public LoginErrorEception(string message) : base(message)
+        {
+
+        }
+
+        public LoginErrorEception(string message, Exception innerException) : base(message, innerException)
+        {
+
+        }
+    }
 }

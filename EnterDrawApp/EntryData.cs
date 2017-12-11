@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace EnterDrawApp
 {
-
+    [DataContract]
     public class EntryData
     {
         public struct DataHolder
@@ -16,6 +17,7 @@ namespace EnterDrawApp
             public string serialNumber;
         }
 
+        [DataMember]
         public List<DataHolder> listOfEntryData = new List<DataHolder>();
 
 
@@ -31,10 +33,32 @@ namespace EnterDrawApp
             listOfEntryData.Add(LocalInstanceOfDataHolder);
         }
 
-        //For test purposes
         public EntryData()
         {
         }
 
+        //Overload for unit test compare
+        public override bool Equals(Object obj)
+        {
+            if (obj is EntryData)
+            {
+                EntryData that = obj as EntryData;
+
+                for (int i = 0; i < listOfEntryData.Count; i++)
+                {
+                    if(listOfEntryData[i].serialNumber != that.listOfEntryData[i].serialNumber 
+                        | listOfEntryData[i].firstName != that.listOfEntryData[i].firstName 
+                        | listOfEntryData[i].surName != that.listOfEntryData[i].surName
+                        | listOfEntryData[i].eMail != that.listOfEntryData[i].eMail 
+                        | listOfEntryData[i].phoneNr != that.listOfEntryData[i].phoneNr
+                        | listOfEntryData[i].date != that.listOfEntryData[i].date)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
     }
 }

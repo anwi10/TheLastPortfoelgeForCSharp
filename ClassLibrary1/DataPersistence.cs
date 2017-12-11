@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Win32.SafeHandles;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization;
@@ -22,11 +21,9 @@ namespace FilePersistence
         //Constant storage name
         public struct FileLokationMode
         {
+            //This is a struct for posible future file locations
             public const string FileLocationForPersonalEntryData = "PersonalData.txt";
-
-            public const string FileLocationForUsedSerialNumbers = "UsedSerialNumbers.txt";
-
-            public const string FileLocationForValidSerialNumbers = "ValiedSerialNumbers.txt";
+            public const string FileLocationForValidSerialNumbers = "ValidSerialNumbers.txt";
         }
 
         //Stream set-up
