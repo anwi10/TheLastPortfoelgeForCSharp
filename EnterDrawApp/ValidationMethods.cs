@@ -9,19 +9,22 @@ namespace EnterDrawApp
 {
     public sealed partial class MainPage : Page
     {
-        private bool ValidateEntryData()
+        //Async method to return the bool check, and set the tekst box, depending on the exception
+        public async Task<bool> ValidateEntryData()
         {
             //Validate incomming info
             bool exceptionFlag = true;
             try
             {
+                //so the method can be async, there is nothing else to await
+                await Task.Delay(1);
+
                 //Look through all previous entered data to check for dublications, aka, you cant use the same email / phone / serial, number twice
                 foreach (var entryData in objectThatHoldsAllEntryData.listOfEntryData)
                 {
                     if (serialNrTextBox.Text == entryData.serialNumber)
                     {
-                        throw new SerialNrNotValidException(
-                        "This serial number have already been used. ");
+                            throw new SerialNrNotValidException("This serial number have already been used. ");
                     }
                     if (eMailTextBox.Text == entryData.eMail)
                     {
@@ -33,7 +36,7 @@ namespace EnterDrawApp
                     }
                 }
 
-                //Validate for type structure, aka an email should contain @, phonenumber should be 8 char, serial numbers shoudl start with #
+                //Validate for type structure, aka an email should contain @, phone number should be 8 char, serial numbers should start with # etc..
                 if (firstNameTextBox.Text.Length > 20)
                 {
                     throw new NameNotValidException("first name should be below 20 character. Use initials. ");
@@ -54,24 +57,25 @@ namespace EnterDrawApp
             }
             catch (NameNotValidException ex)
             {
-                DisplayBox.Text += ex.Message;
+                displayBox.Text += ex.Message;
                 exceptionFlag = false;
             }
             catch (EmailNotValidException ex)
             {
-                DisplayBox.Text += ex.Message;
+                displayBox.Text += ex.Message;
                 exceptionFlag = false;
             }
             catch (PhoneNrNotValidException ex)
             {
-                DisplayBox.Text += ex.Message;
+                displayBox.Text += ex.Message;
                 exceptionFlag = false;
             }
             catch (SerialNrNotValidException ex)
             {
-                DisplayBox.Text += ex.Message;
+                displayBox.Text += ex.Message;
                 exceptionFlag = false;
             }
+
             return exceptionFlag;
         }
 
@@ -82,7 +86,8 @@ namespace EnterDrawApp
 
             try
             {
-                if (userNameTextBox.Text != "Jon skeet")
+                //Validate the login atempt
+                if (userNameTextBox.Text != "Jon skeet") //Who else should be able to view this data, than Jon skeet him self?!?
                 {
                     throw new LoginErrorEception("Invalid username");
                 }

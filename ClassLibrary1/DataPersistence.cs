@@ -18,10 +18,9 @@ namespace EnterDrawAppLib
 {
     public class DataPersistence
     {
-        //Constant storage name
+        //Constant storage names, used to indicate the two file locations for persistence
         public struct FileLokationMode
         {
-            //This is a struct for posible future file locations
             public const string FileLocationForPersonalEntryData = "PersonalData.txt";
             public const string FileLocationForValidSerialNumbers = "ValidSerialNumbers.txt";
         }
@@ -36,14 +35,15 @@ namespace EnterDrawAppLib
         private StorageFolder storageFolder = null;
 
 
-        //Methods
+        //Constructor finds this applications Local folder
+        //On my system it goes: AppData\Local\Packages\5ec0059e-99e0-4e01-a18e-ba7b5592dff6_pth98vj66mbec\LocalState 
         public DataPersistence()
         {
             // Find app local folder
             storageFolder = ApplicationData.Current.LocalFolder;
         }
         
-
+        //Serializes an ovject onto the choosen fileLocationMode
         public void SerializeObject(object objectToSerialize, string fileLocationMode)
         {
 
@@ -68,7 +68,7 @@ namespace EnterDrawAppLib
             }
         }
         
-        //takes an object as parameter to know the type of object to deserialize
+        //Deserializes an object of the type passed to the function
         public object DeserializeObject(object objectType, string fileLocationMode)
         {
             //Use the app local folder + filename to point at file
@@ -104,6 +104,7 @@ namespace EnterDrawAppLib
             return objectToDeserialize;
         }
 
+        //Returns the path to the applications local folder
         public string GetPath(string fileLocationMode)
         {
             return storageFolder.Path + "\\" + fileLocationMode;

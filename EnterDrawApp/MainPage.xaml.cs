@@ -20,23 +20,25 @@ using EnterDrawAppLib;
 
 namespace EnterDrawApp
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
+        //Summary
+        //This class implements the main APP logic. 
+        //It contains the data from app Entries, can validate it, and persist it to a file
 
         //Setup objects to hold entry data
-        private EntryData objectThatHoldsAllEntryData;
+        public EntryData objectThatHoldsAllEntryData;
 
-        //Setup a SerialNumber object
+        //Setup a object that holds, validate, and can create serial numbers.
         private SerialNumbers validSerialNumbers;
 
-        //Setup of serialization object
+        //Object that can serialize an object to and from a file
         private DataPersistence dP;
 
+        //Main function call when application is started
         public MainPage()
         {
+           
             InitializeComponent();
 
             //Initialize serialization object
@@ -59,7 +61,7 @@ namespace EnterDrawApp
                 validSerialNumbers.GenerateValidSerialNumbers(100);
             }
 
-            //Get the state of the application, from persistet object
+            //Get the state of the application, from persistet object, if it dont exist, do nothing.
             if (File.Exists(dP.GetPath(DataPersistence.FileLokationMode.FileLocationForPersonalEntryData)))
             {
                 //deserialize object from file
@@ -67,6 +69,8 @@ namespace EnterDrawApp
                     DataPersistence.FileLokationMode.FileLocationForPersonalEntryData);
             }
 
+            //Subscribe on the app suspending event. This is thrown when the app goes un focused or is shut down 
+            //It is used for persisting the state og the application.
             Application.Current.Suspending += App_Suspending;
 
         }

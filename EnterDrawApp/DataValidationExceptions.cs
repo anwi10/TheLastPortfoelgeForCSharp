@@ -2,6 +2,9 @@
 
 namespace EnterDrawApp
 {
+    //exceptions for the data validation. the names should be pretty self explanatory. 
+    //Overrides the needed methods
+
     public class NameNotValidException : Exception
     {
         public NameNotValidException() : base()

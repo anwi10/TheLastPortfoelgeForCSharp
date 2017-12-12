@@ -4,9 +4,13 @@ using System.Runtime.Serialization;
 
 namespace EnterDrawApp
 {
-    [DataContract]
+    //Summary
+    //This class can hold Entry information, and compare objects of this type
+
+    [DataContract] //Data contract indicates that this class is serializable
     public class EntryData
     {
+        //Struct to groupe all entry data (Potentialy bad practice in C#)
         public struct DataHolder
         {
             public string firstName;
@@ -20,30 +24,38 @@ namespace EnterDrawApp
         [DataMember]
         public List<DataHolder> listOfEntryData = new List<DataHolder>();
 
-
-        public void SaveEntryToList(string fN, string sN, string eM, string pNr, DateTime dT, string sNr)
-        {
-            DataHolder LocalInstanceOfDataHolder = new DataHolder();
-            LocalInstanceOfDataHolder.firstName = fN;
-            LocalInstanceOfDataHolder.surName = sN;
-            LocalInstanceOfDataHolder.eMail = eM;
-            LocalInstanceOfDataHolder.phoneNr = pNr;
-            LocalInstanceOfDataHolder.date = dT;
-            LocalInstanceOfDataHolder.serialNumber = sNr;
-            listOfEntryData.Add(LocalInstanceOfDataHolder);
-        }
-
+        //Empty constructor
         public EntryData()
         {
         }
 
-        //Overload for unit test compare
+        //Save the incomming data to the list
+        public void SaveEntryToList(string fN, string sN, string eM, string pNr, DateTime dT, string sNr)
+        {
+            //Create instance of struct
+            DataHolder LocalInstanceOfDataHolder = new DataHolder
+            {
+                firstName = fN,
+                surName = sN,
+                eMail = eM,
+                phoneNr = pNr,
+                date = dT,
+                serialNumber = sNr
+            };
+            //Push to the end of the list
+            listOfEntryData.Add(LocalInstanceOfDataHolder);
+        }
+
+        //Overload for unit test "Equals"
         public override bool Equals(Object obj)
         {
+            //If object is of right type
             if (obj is EntryData)
             {
+                //Make a cast
                 EntryData that = obj as EntryData;
 
+                //Compare all ellements
                 for (int i = 0; i < listOfEntryData.Count; i++)
                 {
                     if(listOfEntryData[i].serialNumber != that.listOfEntryData[i].serialNumber 
@@ -53,12 +65,22 @@ namespace EnterDrawApp
                         | listOfEntryData[i].phoneNr != that.listOfEntryData[i].phoneNr
                         | listOfEntryData[i].date != that.listOfEntryData[i].date)
                     {
+                        //If one ellement was not equal
                         return false;
                     }
                 }
+                //If no comparison was false
                 return true;
             }
+            //If the object was not of the exspected type
             return false;
+        }
+
+        //Apparently you need to override GetHashCode together with Equals...
+        //Deafault generatet function
+        public override int GetHashCode()
+        {
+            return 1236339184 + EqualityComparer<List<DataHolder>>.Default.GetHashCode(listOfEntryData);
         }
     }
 }

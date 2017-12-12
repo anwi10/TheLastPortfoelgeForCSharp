@@ -96,15 +96,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EntryData.cs" />
+    <Compile Include="DataStructures\EntryData.cs" />
     <Compile Include="DataValidationExceptions.cs" />
+    <Compile Include="IUIAcces.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPageEventMethods.cs" />
-    <Compile Include="MainPagePrivateMethods.cs" />
+    <Compile Include="EventMethods.cs" />
+    <Compile Include="ValidationMethods.cs" />
+    <Compile Include="PublicMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerialNumbers.cs" />
+    <Compile Include="DataStructures\SerialNumbers.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

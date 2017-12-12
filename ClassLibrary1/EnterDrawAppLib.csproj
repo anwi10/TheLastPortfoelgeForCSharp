@@ -107,7 +107,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataPersistence.cs" />
-    <Compile Include="DataValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ClassLibrary1.rd.xml" />
   </ItemGroup>

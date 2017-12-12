@@ -12,7 +12,8 @@ namespace EnterDrawApp
 {
     public sealed partial class MainPage : Page
     {
-        //Executes on app suspension
+        //This executes when the ap becomes suspended
+        //Upon suspension the current state of the entry data, and serial numbers are persisted.
         private void App_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
         {
             //serialize Personal data
@@ -32,44 +33,55 @@ namespace EnterDrawApp
         }
 
         //Executes when DoneButton is clicked
-        private void DoneButton_OnClick(object sender, RoutedEventArgs e)
+        //This is where all data in the text fields are validated. 
+        //If all data is valid it is saved to the EntryData object for storage
+        private async void DoneButton_OnClick(object sender, RoutedEventArgs e)
         {
             //Clear display box
-            DisplayBox.Text = "";
-
-            //NOTE: Cant validate data async due to exceptions...
+            //So new messages can be displayed
+            displayBox.Text = "";
 
             //Validate entry data using exceptions
-            if (ValidateEntryData())
+            if (await ValidateEntryData())
             {
-                //Save the data
-                objectThatHoldsAllEntryData.SaveEntryToList(firstNameTextBox.Text, surNameTextBox.Text, eMailTextBox.Text,
-                    phoneNrTextBox.Text, dateOfBirthDatePicker.Date.Date, serialNrTextBox.Text);
+                //If there was no errors in the data, save the data
+                objectThatHoldsAllEntryData.SaveEntryToList
+                (
+                    firstNameTextBox.Text, 
+                    surNameTextBox.Text, 
+                    eMailTextBox.Text,
+                    phoneNrTextBox.Text, 
+                    dateOfBirthDatePicker.Date.Date, 
+                    serialNrTextBox.Text
+                );
 
                 var serialNumber = serialNrTextBox.Text;
-                //if valid data entered, check if this serial number is a win
 
+                //if valid data entered, check if this serial number is a win
                 if (validSerialNumbers.ValidateSerialnumber(serialNumber))
                 {
                     //Remove the serial number from the list
                     validSerialNumbers.RemoveSerialNumber(serialNrTextBox.Text);
                     
                     //Display succes
-                    DisplayBox.Text = "Congratulation you won!";
+                    displayBox.Text = "Congratulation you won!";
                 }
                 else
                 {
-                    DisplayBox.Text = "Sorry, you didnt win this time";
+                    //Display if they lost
+                    displayBox.Text = "Sorry, you didnt win this time";
                 }
                 
             }
         }
 
+        //Executes when login button is clicked
         private void ShowLatestEntries_OnClick(object sender, RoutedEventArgs e)
         {
+            //Validate the login attempt
             if (ValidateLoginAtempt())
             {
-                //Place all boxes in a list
+                //Place all tekst boxes in a list, so they can eb iterated over
                 List<TextBlock> listOfBlocks = new List<TextBlock>()
                 {   latest_1TextBlock,
                     latest_2TextBlock,
@@ -83,16 +95,20 @@ namespace EnterDrawApp
 
                 try
                 {
+                    //Iterator so the list can ben indekst
                     int entryDataIterator = 1;
+
+                    //Iterate over the list
                     foreach (var tekstBlock in listOfBlocks)
                     {
-                        tekstBlock.Text = objectThatHoldsAllEntryData.listOfEntryData[objectThatHoldsAllEntryData.listOfEntryData.Count - entryDataIterator].serialNumber;
+                        tekstBlock.Text = objectThatHoldsAllEntryData.
+                            listOfEntryData[objectThatHoldsAllEntryData.listOfEntryData.Count - entryDataIterator].serialNumber;
                         entryDataIterator++;
                     }
                 }
                 catch (System.ArgumentOutOfRangeException ex)
                 {
-                    //--
+                    //If the call to the above functions goes out of range.
                 }
 
             }
