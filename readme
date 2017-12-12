@@ -1,0 +1,14 @@
+Steps to run the project: 
+  Setup:
+  1) goto solution explorer
+  2) Deploy the "EnterDrawApp" (right click - > Deploy)
+  3) Deploy the "EnterDrawApp.Tests" (right click - > Deploy)
+  4) Deploy the "filePersistence" (right click - > Deploy)
+
+  To run the application:
+  1) right click "EnterDrawApp" 
+  2) Debug -> Start new instance
+
+  To run the Unit test: 
+  1) Test -> Windows -> Test explorer
+  2) click "Run All"
