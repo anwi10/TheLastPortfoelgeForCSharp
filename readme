@@ -47,6 +47,8 @@ This project consist of 3 solutions. One UWP solution, one Library, and one unit
   It test for data validation, and file persistence.
   The file is called "UnitTest.cs"
 
+Prerequisit:
+https://docs.microsoft.com/en-us/windows/uwp/get-started/get-set-up
 
 Steps to run the project: 
   Setup:
