@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Win32.SafeHandles;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization;

@@ -144,13 +144,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\filePersistence.csproj">
-      <Project>{8e6890ce-1af5-48e2-b781-783d1e201205}</Project>
-      <Name>filePersistence</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EnterDrawApp\EnterDrawApp.csproj">
       <Project>{793aa6e3-efc4-40ab-8e59-0d52a690e3ea}</Project>
       <Name>EnterDrawApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FilePersistence\FilePersistence.csproj">
+      <Project>{89dbb13f-5eba-4e54-9cc7-5603054e3e74}</Project>
+      <Name>FilePersistence</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
