@@ -144,6 +144,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataPersistenceLib\DataPersistenceLib.csproj">
+      <Project>{c6ebdd7e-3c58-46e9-9021-1a1091acc951}</Project>
+      <Name>DataPersistenceLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EnterDrawApp\EnterDrawApp.csproj">
       <Project>{793aa6e3-efc4-40ab-8e59-0d52a690e3ea}</Project>
       <Name>EnterDrawApp</Name>
