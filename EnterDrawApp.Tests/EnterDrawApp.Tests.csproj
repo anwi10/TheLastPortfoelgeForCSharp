@@ -144,10 +144,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\EnterDrawAppLib.csproj">
-      <Project>{8e6890ce-1af5-48e2-b781-783d1e201205}</Project>
-      <Name>EnterDrawAppLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EnterDrawApp\EnterDrawApp.csproj">
       <Project>{793aa6e3-efc4-40ab-8e59-0d52a690e3ea}</Project>
       <Name>EnterDrawApp</Name>
