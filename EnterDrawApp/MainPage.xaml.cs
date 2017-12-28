@@ -14,135 +14,65 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using FilePersistence;
+using EnterDrawAppLib;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace EnterDrawApp
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
-        //Initialization of objects to hold entry data
+        //Summary
+        //This class implements the main APP logic. 
+        //It contains the data from app Entries, can validate it, and persist it to a file
 
-        private EntryData eD;
+        //Setup objects to hold entry data
+        public EntryData objectThatHoldsAllEntryData;
 
-        //Initialization of serialization object
+        //Setup a object that holds, validate, and can create serial numbers.
+        private SerialNumbers validSerialNumbers;
+
+        //Object that can serialize an object to and from a file
         private DataPersistence dP;
 
-
-
+        //Main function call when application is started
         public MainPage()
         {
-            this.InitializeComponent();
-            Application.Current.Suspending += App_Suspending;
+           
+            InitializeComponent();
 
             //Initialize serialization object
             dP = new DataPersistence();
 
-            //Get the state of the application, from persistet object
+            //Initialize Data object
+            objectThatHoldsAllEntryData = new EntryData();
+
+            //Initialize Serial number object
+            validSerialNumbers = new SerialNumbers();
+
+            //Get the state of the SerialNumbers from file, if file dont exist, create 100 valid serial numbers 
+            if (File.Exists(dP.GetPath(DataPersistence.FileLokationMode.FileLocationForValidSerialNumbers)))
+            {
+                validSerialNumbers = (SerialNumbers) dP.DeserializeObject(validSerialNumbers, 
+                    DataPersistence.FileLokationMode.FileLocationForValidSerialNumbers);  
+            }
+            else
+            {
+                validSerialNumbers.GenerateValidSerialNumbers(100);
+            }
+
+            //Get the state of the application, from persistet object, if it dont exist, do nothing.
             if (File.Exists(dP.GetPath(DataPersistence.FileLokationMode.FileLocationForPersonalEntryData)))
             {
-
-                eD = new EntryData();
-
-                eD = (EntryData) dP.DeserializeObject(eD,
+                //deserialize object from file
+                objectThatHoldsAllEntryData = (EntryData) dP.DeserializeObject(objectThatHoldsAllEntryData,
                     DataPersistence.FileLokationMode.FileLocationForPersonalEntryData);
-
-                //firstNameTextBox.Text = eD.listOfEntryData[0].firstName;
-                //surNameTextBox.Text = eD.listOfEntryData[0].surName;
-            } 
-        }
-
-        private async void DoneButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            //Clear display box
-            DisplayBox.Text = "";
-
-            Task<bool> validationTask = new Task<bool>(ValidateEntryData);
-                 validationTask.Start();
-            bool test = await validationTask;
-                if (test)
-                {
-                    //Save the data
-                    eD.SaveEntryToList(firstNameTextBox.Text,surNameTextBox.Text,eMailTextBox.Text,
-                        phoneNrTextBox.Text,dateOfBirthDatePicker.Date.Date,serialNrTextBox.Text);
-
-                    //Succes
-                    DisplayBox.Text = "Data saved succesfully";
-                }
-        }
-
-        void App_Suspending(
-            object sender,
-            Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            // TODO: This is the time to save app data in case the process is terminated
-
-            //Serialize object
-            if (eD != null)
-            {
-                dP.SerializeObject(eD, DataPersistence.FileLokationMode.FileLocationForPersonalEntryData);
             }
-            
 
-        }
+            //Subscribe on the app suspending event. This is thrown when the app goes un focused or is shut down 
+            //It is used for persisting the state og the application.
+            Application.Current.Suspending += App_Suspending;
 
-        private bool ValidateEntryData()
-        {
-            //Validate incomming info
-            bool exceptionFlag = true;
-            try
-            {
-                if (firstNameTextBox.Text.Length > 20)
-                {
-                    throw new NameNotValidException("first name should be below 20 character. Use initials. ");
-                }
-                if (!eMailTextBox.Text.Contains("@"))
-                {
-                    throw new EmailNotValidException("Email invalid, valid emails should contain \"@\". ");
-                }
-                if (phoneNrTextBox.Text.Length != 8)
-                {
-                    throw new PhoneNrNotValidException("Phone number invalid, phone number should be 8 characters. ");
-                }
-                if (!serialNrTextBox.Text.StartsWith("#"))
-                {
-                    throw new SerialNrNotValidException(
-                        "Serial number invalid, serial numbers should start with a \"#\". ");
-                }
-            }
-            catch (NameNotValidException ex)
-            {
-                DisplayBox.Text += ex.Message;
-                exceptionFlag = false;
-            }
-            catch (EmailNotValidException ex)
-            {
-                DisplayBox.Text += ex.Message;
-                exceptionFlag = false;
-            }
-            catch (PhoneNrNotValidException ex)
-            {
-                DisplayBox.Text += ex.Message;
-                exceptionFlag = false;
-            }
-            catch (SerialNrNotValidException ex)
-            {
-                DisplayBox.Text += ex.Message;
-                exceptionFlag = false;
-            }
-            return exceptionFlag;
-
-        }
-
-        public void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            tb.Text = string.Empty;
-            tb.GotFocus -= TextBox_GotFocus;
         }
     }
 }

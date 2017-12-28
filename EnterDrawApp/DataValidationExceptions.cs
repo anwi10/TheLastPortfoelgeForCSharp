@@ -2,6 +2,9 @@
 
 namespace EnterDrawApp
 {
+    //exceptions for the data validation. the names should be pretty self explanatory. 
+    //Overrides the needed methods
+
     public class NameNotValidException : Exception
     {
         public NameNotValidException() : base()
@@ -74,4 +77,21 @@ namespace EnterDrawApp
         }
     }
 
+    public class LoginErrorEception : Exception
+    {
+        public LoginErrorEception() : base()
+        {
+
+        }
+
+        public LoginErrorEception(string message) : base(message)
+        {
+
+        }
+
+        public LoginErrorEception(string message, Exception innerException) : base(message, innerException)
+        {
+
+        }
+    }
 }

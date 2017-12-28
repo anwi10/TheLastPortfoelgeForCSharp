@@ -1,0 +1,78 @@
+What is this?:
+This is a Universal Windows Platform project (UWP) written in C#. 
+This project is developed as the last assignment in the course C# at Syddansk Universitet.
+
+(To get started, skip the intro)
+
+Introduction:
+This project is a draw app. 
+A user can enter a draw using the app. One entry takes:
+  - First name
+  - Sur name
+  - E-mail
+  - Phone numer
+  - Date of birth
+  - And a serial number 
+An entry into the draw is uniqe, meaning you can not enter the draw twice using the same E-mail, Phone number, or serial number. 
+The serial number is used for deciding if the user won or lost. Only 100 valid serial numbers exist.
+  These Serial numbers will be generated at random by the application first time it is opened.
+  The valid serial numbers can be found in the persisted file, after first run of the application (se below)
+The application lets a user with the password and username see the 10 latest serial number submissions.
+  And what else should be in the username,than the one and only: Jon skeet
+  With the password: 991906 (Jon skeets stackoverflow reputation)
+
+This project consist of 3 solutions. One UWP solution, one Library, and one unit test. 
+  The library solution: EnterDrawAppLib
+  Contains methods for persisting objects to a file location.
+  The library file is called "DataPersistence.cs"
+
+  The Application: EnterDrawApp
+  Contains the main methods for:
+    - Handeling button events
+    - Displaying text
+    - Validating data
+    - Exceptions
+    - Data containers
+  The Application methods are covered in the following files: 
+    MainPage.xaml.cs - Initialization method
+    EventMethods.cs - Handles application events, such as application suspension, and buton clicks
+    ValidationMethods.cs - Handles validation of data, and checks for dublicate entry
+    PublicMethods.cs - Getter and setter methods for the xaml tekst boxes. Mostly used by the Unit test.
+    DataValidationExceptions.cs - defines the costume exceptions for the application
+    Folder "DataStructures" -> EntryData.cs - Contains the class that implements the current list of entries
+    Folder "DataStructures" -> SerailNumbers.cs - This class can hold, validate, and generate serial numbers
+      
+  The unit test: EnterDrawApp.Tests
+  This solution contains the unit tests for the application. 
+  It test for data validation, and file persistence.
+  The file is called "UnitTest.cs"
+
+Prerequisit:
+https://docs.microsoft.com/en-us/windows/uwp/get-started/get-set-up
+
+Steps to run the project: 
+  Setup:
+  1) goto solution explorer
+  2) Deploy the "EnterDrawApp" (right click - > Deploy)
+  3) Deploy the "EnterDrawApp.Tests" (right click - > Deploy)
+
+  To run the application:
+  1) right click "EnterDrawApp" -> Debug -> Start new instance
+
+  To run the Unit test: 
+  1) Test -> Windows -> Test explorer
+  2) click "Run All"
+  
+  To enter a draw: 
+    Enter your information, and guess on a serial number (Hint they are all integers between 1000 and 100000), press "Done".
+    If anything in the entered infromation was wrong, the app will tell you, and you can correct it and press "Done" again.
+    If you get tires of guessing on Serial numbers, there are 2 test serial numbers: 
+      - "#UnitTestSerialNumber#" 
+      - "#UnitTestSerialNumber1#"
+    Remeber that each serial number is unique, so it can only be used once. 
+    If you want to see all posible serial numbers, this is my path(no garanti it works for you..):
+    AppData\Local\Packages\5ec0059e-99e0-4e01-a18e-ba7b5592dff6_pth98vj66mbec\LocalState\ValidSerialNumbers
+
+  It is posible to login and see the past 10 entered serial numbers, the username and password goes as follow:
+  Username: Jon skeet
+  Password(Jon skeet's stackoverflow rep): 991906
